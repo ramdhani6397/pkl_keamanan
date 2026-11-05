@@ -64,4 +64,74 @@ class Validators {
     }
     return null;
   }
+
+  /// Memvalidasi nomor telepon.
+  ///
+  /// Mengembalikan `true` jika [phone] hanya berisi angka
+  /// dan panjangnya 10 sampai 13 digit.
+  static bool isValidPhone(String phone) {
+    return RegExp(r'^\d{10,13}$').hasMatch(phone);
+  }
+
+  /// Memvalidasi nomor telepon.
+  ///
+  /// Mengembalikan pesan error jika tidak valid, atau `null` jika valid.
+  static String? validatePhone(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Nomor telepon tidak boleh kosong';
+    }
+    if (!isValidPhone(value.trim())) {
+      return 'Nomor telepon harus berupa angka 10-13 digit';
+    }
+    return null;
+  }
+
+  /// Memvalidasi URL.
+  ///
+  /// Mengembalikan `true` jika [url] diawali `http://` atau `https://`
+  /// dan memiliki host.
+  static bool isValidUrl(String url) {
+    if (!RegExp(r'^https?://', caseSensitive: false).hasMatch(url)) {
+      return false;
+    }
+    final uri = Uri.tryParse(url);
+    return uri != null && uri.host.isNotEmpty;
+  }
+
+  /// Memvalidasi URL.
+  ///
+  /// Mengembalikan pesan error jika tidak valid, atau `null` jika valid.
+  static String? validateUrl(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'URL tidak boleh kosong';
+    }
+    if (!isValidUrl(value.trim())) {
+      return 'URL harus diawali http:// atau https://';
+    }
+    return null;
+  }
+
+  /// Memvalidasi password.
+  ///
+  /// Syarat: minimal 8 karakter, mengandung huruf kapital,
+  /// angka, dan simbol.
+  /// Mengembalikan pesan error jika tidak valid, atau `null` jika valid.
+  static String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password tidak boleh kosong';
+    }
+    if (value.length < 8) {
+      return 'Password minimal 8 karakter';
+    }
+    if (!RegExp(r'[A-Z]').hasMatch(value)) {
+      return 'Password harus mengandung huruf kapital';
+    }
+    if (!RegExp(r'\d').hasMatch(value)) {
+      return 'Password harus mengandung angka';
+    }
+    if (!RegExp(r'[^A-Za-z0-9]').hasMatch(value)) {
+      return 'Password harus mengandung simbol';
+    }
+    return null;
+  }
 }
