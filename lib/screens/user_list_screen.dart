@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../config/dependency_injector.dart';
 import '../models/user.dart';
 import '../repositories/user_repository.dart';
-import '../repositories/user_repository_impl.dart';
 import '../widgets/user_card.dart';
 
 /// Halaman untuk menampilkan daftar pengguna.
 ///
-/// Halaman ini menggunakan [UserRepository] untuk mengambil data,
-/// sehingga UI tidak bergantung langsung pada ApiService.
+/// Halaman ini memakai [UserRepository] yang disediakan oleh
+/// [DependencyProvider], sehingga UI tidak membuat dependency sendiri.
 class UserListScreen extends StatefulWidget {
   final UserRepository? repository;
 
@@ -27,7 +27,8 @@ class _UserListScreenState extends State<UserListScreen> {
   @override
   void initState() {
     super.initState();
-    _repository = widget.repository ?? UserRepositoryImpl();
+    _repository =
+        widget.repository ?? DependencyProvider.of(context).userRepository;
     _loadUsers();
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'config/app_config.dart';
+import 'config/dependency_injector.dart';
 import 'screens/home_screen.dart';
 import 'utils/logger.dart';
 
@@ -19,15 +20,9 @@ Future<void> main() async {
     Logger.warning('Konfigurasi .env tidak lengkap. Periksa file .env Anda.');
   }
 
-  // --- BUKTI LOGGER (sementara, hapus setelah screenshot) ---
-  Logger.debug('Contoh debug');
-  Logger.info('Contoh info');
-  Logger.warning('Contoh warning');
-  Logger.error('Contoh error', Exception('gagal'));
-  Logger.info('Login dengan token: abc123xyz');
-  // --- AKHIR BUKTI LOGGER ---
-
-  runApp(const MyApp());
+  runApp(
+    DependencyProvider(injector: DependencyInjector(), child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
