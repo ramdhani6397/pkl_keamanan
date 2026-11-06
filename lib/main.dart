@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'config/app_config.dart';
 import 'screens/home_screen.dart';
+import 'utils/logger.dart';
 
 /// Entry point aplikasi.
 ///
@@ -15,9 +15,17 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
 
   // Periksa konfigurasi
-  if (!AppConfig.isConfigured() && kDebugMode) {
-    debugPrint('Konfigurasi .env tidak lengkap. Periksa file .env Anda.');
+  if (!AppConfig.isConfigured()) {
+    Logger.warning('Konfigurasi .env tidak lengkap. Periksa file .env Anda.');
   }
+
+  // --- BUKTI LOGGER (sementara, hapus setelah screenshot) ---
+  Logger.debug('Contoh debug');
+  Logger.info('Contoh info');
+  Logger.warning('Contoh warning');
+  Logger.error('Contoh error', Exception('gagal'));
+  Logger.info('Login dengan token: abc123xyz');
+  // --- AKHIR BUKTI LOGGER ---
 
   runApp(const MyApp());
 }

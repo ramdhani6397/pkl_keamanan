@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'lib/utils/validators.dart';
 
 void main() {

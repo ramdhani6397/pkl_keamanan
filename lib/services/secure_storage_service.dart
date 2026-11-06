@@ -1,5 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../utils/logger.dart';
 
 /// Service untuk menyimpan data sensitif (token, PIN) secara terenkripsi.
 class SecureStorageService {
@@ -15,28 +16,26 @@ class SecureStorageService {
   /// Menyimpan token (nilainya tidak dicatat ke log).
   Future<void> saveToken(String token) async {
     await _storage.write(key: _tokenKey, value: token);
-    if (kDebugMode) debugPrint('Token berhasil disimpan');
+    Logger.info('Token berhasil disimpan');
   }
 
   /// Membaca token.
   Future<String?> getToken() async {
     final token = await _storage.read(key: _tokenKey);
-    if (kDebugMode) {
-      debugPrint(token != null ? 'Token ditemukan' : 'Token tidak ditemukan');
-    }
+    Logger.debug(token != null ? 'Token ditemukan' : 'Token tidak ditemukan');
     return token;
   }
 
   /// Menghapus token.
   Future<void> deleteToken() async {
     await _storage.delete(key: _tokenKey);
-    if (kDebugMode) debugPrint('Token berhasil dihapus');
+    Logger.info('Token berhasil dihapus');
   }
 
   /// Menyimpan PIN.
   Future<void> savePin(String pin) async {
     await _storage.write(key: _pinKey, value: pin);
-    if (kDebugMode) debugPrint('PIN berhasil disimpan');
+    Logger.info('PIN berhasil disimpan');
   }
 
   /// Membaca PIN.
@@ -47,7 +46,7 @@ class SecureStorageService {
   /// Menghapus semua data.
   Future<void> deleteAll() async {
     await _storage.deleteAll();
-    if (kDebugMode) debugPrint('Semua data berhasil dihapus');
+    Logger.info('Semua data berhasil dihapus');
   }
 
   /// Cek keberadaan token.
